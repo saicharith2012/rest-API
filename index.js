@@ -2,12 +2,15 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
+const Student = require("./models/student");
 
+require("dotenv").config();
 // express app setup
 const app = express();
 
 // connect to mongodb
-mongoose.connect("mongodb://localhost/ourdata");
+mongoose.set('strictQuery', false)
+mongoose.connect(process.env.MONGODB_LINK);
 // ourdata is the name of the model
 mongoose.Promise = global.Promise;
 
@@ -24,8 +27,8 @@ app.use((err, req, res, next) => {
   res.status(422).send({ error: err.message });
 });
 
-//app listening to requests at port 4000
-app.listen(process.env.port || 4000, () => {
+//app listening to requests at port 
+app.listen(process.env.port || 4001, () => {
   console.log("listening for the requests now.");
 }); //checking for any port no. defined via env variables
 
